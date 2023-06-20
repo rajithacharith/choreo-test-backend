@@ -6,17 +6,17 @@ const jwksRsa = require('jwks-rsa');
 const app = express();
 app.use(express.json());
 
-app.use(jwt({
-    // Dynamically provide a signing key based on the kid in the header and the signing keys provided by the JWKS endpoint.
-    secret: jwksRsa.expressJwtSecret({
-      cache: true,
-      rateLimit: true,
-      jwksRequestsPerMinute: 5,
-      jwksUri: process.env.JWKS_URI
-    }),
-    getToken: req => req.headers['x-jwt-assertion'],
-    algorithms: [ 'RS256' ]
-  }));
+// app.use(jwt({
+//     // Dynamically provide a signing key based on the kid in the header and the signing keys provided by the JWKS endpoint.
+//     secret: jwksRsa.expressJwtSecret({
+//       cache: true,
+//       rateLimit: true,
+//       jwksRequestsPerMinute: 5,
+//       jwksUri: process.env.JWKS_URI
+//     }),
+//     getToken: req => req.headers['x-jwt-assertion'],
+//     algorithms: [ 'RS256' ]
+//   }));
 
 app.get('/', (req, res) => {
   res.send('Successful response.');
@@ -33,6 +33,7 @@ const products = [
 ];
 
 app.get('/products', (req, res) => {
+    console.log(req.headers['x-jwt-assertion']);
     console.log('GET /products request received from user ' + req.auth.sub);
     res.json(products);
 });
