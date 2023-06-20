@@ -1,8 +1,26 @@
 const express = require('express');
 var bodyParser = require('body-parser');
+const { expressjwt: jwt } = require('express-jwt');
+const jwksRsa = require('jwks-rsa');
 
 const app = express();
 app.use(express.json());
+
+app.use(jwt({
+    // Dynamically provide a signing key based on the kid in the header and the signing keys provided by the JWKS endpoint.
+    secret: jwksRsa.expressJwtSecret({
+      cache: true,
+      rateLimit: true,
+      jwksRequestsPerMinute: 5,
+      jwksUri: process.env.JWKS_URI
+    }),
+    getToken: req => req.headers['x-jwt-assertion'],
+  
+    // Validate the audience and the issuer.
+    audience: 'vrfJ_cTNJussHx_n9qkUmj4spKAa',
+    issuer: 'https://api.asgardeo.io/t/charithr/oauth2/token',
+    algorithms: [ 'RS256' ]
+  }));
 
 app.get('/', (req, res) => {
   res.send('Successful response.');
@@ -19,17 +37,19 @@ const products = [
 ];
 
 app.get('/products', (req, res) => {
+    console.log('GET /products request received from user ' + req.auth.sub);
     res.json(products);
 });
 
 app.post('/products', (req, res) => {
     const product = req.body;
-    console.log(product);
+    console.log('POST /products request received from user ' + req.auth.sub);
     products.push(product);
     res.json(product);
 });
 
 app.delete('/products/:id', (req, res) => {
+    console.log('DELETE /products request received from user ' + req.auth.sub);
     const id = parseInt(req.params.id);
     const index = products.findIndex(product => product.id === id);
     products.splice(index, 1);
