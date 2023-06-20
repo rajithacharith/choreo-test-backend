@@ -15,10 +15,6 @@ app.use(jwt({
       jwksUri: process.env.JWKS_URI
     }),
     getToken: req => req.headers['x-jwt-assertion'],
-  
-    // Validate the audience and the issuer.
-    audience: 'vrfJ_cTNJussHx_n9qkUmj4spKAa',
-    issuer: 'https://api.asgardeo.io/t/charithr/oauth2/token',
     algorithms: [ 'RS256' ]
   }));
 
