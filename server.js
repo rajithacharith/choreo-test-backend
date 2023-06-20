@@ -34,7 +34,6 @@ const products = [
 
 app.get('/products', (req, res) => {
     console.log(req.headers['x-jwt-assertion']);
-    console.log('GET /products request received from user ' + req.auth.sub);
     res.json(products);
 });
 
