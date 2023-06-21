@@ -1,21 +1,25 @@
 const express = require('express');
 var bodyParser = require('body-parser');
-const { expressjwt: jwt } = require('express-jwt');
+// const { expressjwt: jwt } = require('express-jwt');
 const jwksRsa = require('jwks-rsa');
+
+const jwt = require("jsonwebtoken");
 
 const app = express();
 app.use(express.json());
+console.log('process.env.JWKS_URI: ' + process.env.JWKS_URI);
+
 
 // app.use(jwt({
 //     // Dynamically provide a signing key based on the kid in the header and the signing keys provided by the JWKS endpoint.
 //     secret: jwksRsa.expressJwtSecret({
-//       cache: true,
-//       rateLimit: true,
 //       jwksRequestsPerMinute: 5,
 //       jwksUri: process.env.JWKS_URI
 //     }),
-//     getToken: req => req.headers['x-jwt-assertion'],
-//     algorithms: [ 'RS256' ]
+//     getToken: function fromHeaderOrQuerystring (req) {
+//         return req.headers['x-jwt-assertion'];
+//     },
+//     algorithms: ['RS256']
 //   }));
 
 app.get('/', (req, res) => {
@@ -32,8 +36,30 @@ const products = [
     { id: 7, name: 'Product 7' },
 ];
 
+// Function to decode JWT token
+const decodeJWT= (token) => {
+    try {
+      return JSON.parse(atob(token.split('.')[1]));
+    } catch (e) {
+      return null;
+    }
+  };
+
+app.use((req, res, next) => {
+    const token = req.headers['x-jwt-assertion'];
+    if (!token) {
+        return res.status(401).send({ message: 'Missing token.' });
+    }
+    const decoded = decodeJWT(token);
+    if (!decoded) {
+        return res.status(401).send({ message: 'Invalid token.' });
+    }
+    req.auth = decoded;
+    next();
+});
+
 app.get('/products', (req, res) => {
-    console.log(req.headers['x-jwt-assertion']);
+    console.log('GET /products request received from user ' + req.auth.sub);
     res.json(products);
 });
 
