@@ -62,6 +62,36 @@ app.use((req, res, next) => {
 app.get('/products', (req, res) => {
     console.log('GET /products request received from user ' + req.auth.sub);
     console.log(req.headers['x-access-token']);
+
+    let data = {
+        'grant_type': 'urn:ietf:params:oauth:grant-type:token-exchange',
+        'subject_token': req.headers['x-access-token'],
+        'subject_token_type': 'urn:ietf:params:oauth:token-type:jwt',
+        'requested_token_type': 'urn:ietf:params:oauth:token-type:jwt',
+        'scope': 'read_booking' 
+      };
+
+      let config = {
+        method: 'post',
+        maxBodyLength: Infinity,
+        url: 'https://api.asgardeo.io/t/charithr/oauth2/token',
+        headers: { 
+          'Content-Type': 'application/x-www-form-urlencoded', 
+          'Authorization': 'Basic ZlRiS0JlYm9ZU2pkU1F3OVc3U2o4NXhKSWpFYTpEYUtVRmdySWVXajJ3THNvZlQ5OHhEaTBMajRh', 
+        },
+        data : JSON.stringify(data)
+      };
+
+      axios.request(config)
+        .then((response) => {
+        console.log(JSON.stringify(response.data));
+        })
+        .catch((error) => {
+        console.log(error);
+        });
+
+    console.log(config);
+
     res.json(products);
 });
 
@@ -85,3 +115,5 @@ app.delete('/products/:id', (req, res) => {
 app.listen(9090, () => {
     console.log('Server running on port 3000.');
 });
+
+
