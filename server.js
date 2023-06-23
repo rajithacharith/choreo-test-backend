@@ -3,6 +3,7 @@ var bodyParser = require('body-parser');
 // const { expressjwt: jwt } = require('express-jwt');
 const jwksRsa = require('jwks-rsa');
 const axios = require('axios');
+const qs = require('qs');
 
 const jwt = require("jsonwebtoken");
 
@@ -80,7 +81,7 @@ app.get('/products', (req, res) => {
           'Content-Type': 'application/x-www-form-urlencoded', 
           'Authorization': 'Basic ZlRiS0JlYm9ZU2pkU1F3OVc3U2o4NXhKSWpFYTpEYUtVRmdySWVXajJ3THNvZlQ5OHhEaTBMajRh', 
         },
-        data : JSON.stringify(data)
+        data : qs.stringify(data)
       };
 
       axios.request(config)
