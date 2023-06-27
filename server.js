@@ -93,8 +93,8 @@ app.get('/commonauth', (req, res) => {
 
 app.get('/nic', (req, res) => {
     const clientId = "vrfJ_cTNJussHx_n9qkUmj4spKAa";
-    console.log(req.auth);
-    if(req.auth.clientId === clientId) {
+    console.log(req.auth.client_id);
+    if(req.auth.client_id === clientId) {
         console.log("Request from client 1");
     }
     // method to get nic number.
