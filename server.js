@@ -48,7 +48,7 @@ const decodeJWT= (token) => {
   };
 
 app.use((req, res, next) => {
-    const token = req.headers['x-jwt-assertion'];
+    var token = req.headers['x-jwt-assertion'];
     console.log('token: ' + token);
     if (!token) {
         token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6IlpqY3dObUkyWkRKbU5XUTBNMkk1WXpaaVl6Sm1abU00WWpNd01ERmxPVEE0TUdFM1pXWmpaVE16TmpVM1lXVTFNelZpWWpaa09Ua3paall6T0dZeU5nIn0=.eyJzdWIiOiJjYzRhYzQ1Yy0yODdjLTQwMzItYTUxNi02YTcxYWRhNmQyNzAiLCJodHRwOlwvXC93c28yLm9yZ1wvY2xhaW1zXC9hcGluYW1lIjoiZXhwcmVzc2JhY2tlbmQgLSBQcm9kdWN0IENhdGFsb2cgODAzIiwiaHR0cDpcL1wvd3NvMi5vcmdcL2NsYWltc1wvYXBwbGljYXRpb250aWVyIjoiVW5saW1pdGVkIiwiaXNzIjoid3NvMi5vcmdcL3Byb2R1Y3RzXC9hbSIsImh0dHA6XC9cL3dzbzIub3JnXC9jbGFpbXNcL2VuZHVzZXJUZW5hbnRJZCI6IjAiLCJodHRwOlwvXC93c28yLm9yZ1wvY2xhaW1zXC9hcHBsaWNhdGlvblVVSWQiOiI3NjE3ODU2OC04YjIwLTQwZWUtOTEwMS0zZjM4N2U2OWEwYmYiLCJjbGllbnRfaWQiOiJ2cmZKX2NUTkp1c3NIeF9uOXFrVW1qNHNwS0FhIiwiaHR0cDpcL1wvd3NvMi5vcmdcL2NsYWltc1wvc3Vic2NyaWJlciI6IjMxM2IzMGNhLTM0OTQtNDY4Ny1iZjBhLTlkZGJmNTY5YjhkMyIsImF6cCI6InZyZkpfY1ROSnVzc0h4X245cWtVbWo0c3BLQWEiLCJzY29wZSI6ImFwcF9yb2xlcyBncm91cHMgb3BlbmlkIHByb2ZpbGUgdXJuOmNoYXJpdGhyOmV4cHJlc3NiYWNrZW5kcHJvZHVjdGNhdGE6Z2V0X3Byb2R1Y3QiLCJhcHBsaWNhdGlvbl9yb2xlcyI6ImN1c3RvbWVyIiwiZXhwIjoxNjg3ODQ2MzE4LCJodHRwOlwvXC93c28yLm9yZ1wvY2xhaW1zXC9hcHBsaWNhdGlvbmlkIjoiNzYxNzg1NjgtOGIyMC00MGVlLTkxMDEtM2YzODdlNjlhMGJmIiwiaHR0cDpcL1wvd3NvMi5vcmdcL2NsYWltc1wvdXNlcnR5cGUiOiJBcHBsaWNhdGlvbl9Vc2VyIiwib3JnX25hbWUiOiJjaGFyaXRociIsImlhdCI6MTY4Nzg0MjcxOCwianRpIjoiMTUxYjJlOTctZDRiZC00ZjRiLWJhNWMtYWRkZjA5NWY1NGNkIiwiaHR0cDpcL1wvd3NvMi5vcmdcL2NsYWltc1wvYXBpY29udGV4dCI6IlwvYTBhNTFhZDQtMWFjZC00ZmY1LTkxODUtZGI3NTlmNTQwYzQwXC95bHVoXC9leHByZXNzYmFja2VuZFwvcHJvZHVjdC1jYXRhbG9nLTgwM1wvMS4wLjAiLCJodHRwOlwvXC93c28yLm9yZ1wvY2xhaW1zXC92ZXJzaW9uIjoiMS4wLjAiLCJodHRwOlwvXC93c28yLm9yZ1wvY2xhaW1zXC9rZXl0eXBlIjoiU0FOREJPWCIsImh0dHA6XC9cL3dzbzIub3JnXC9jbGFpbXNcL2FwcGxpY2F0aW9uQXR0cmlidXRlcyI6eyJhc2dhcmRlb19hcHBfaWRfc2FuZGJveCI6IjYzNWY0NDk5LTJmYzgtNGYzNy04Yzc1LTY5MGEzZjhkYWQ5MiJ9LCJncm91cHMiOlsiQ3VzdG9tZXJzIl0sImh0dHA6XC9cL3dzbzIub3JnXC9jbGFpbXNcL2FwcGxpY2F0aW9ubmFtZSI6ImV4cHJlc3MyIiwib3JnX2lkIjoiYTBhNTFhZDQtMWFjZC00ZmY1LTkxODUtZGI3NTlmNTQwYzQwIiwiaHR0cDpcL1wvd3NvMi5vcmdcL2NsYWltc1wvdGllciI6IlVubGltaXRlZCJ9.zPrzIMrhfQVCpPqvSiDKaD2I76GwEbRYaUsGnYopbUxP58o9tmGN2FuS3ueViTwIibk_Svow4bJK6oQQzgr6yKKVasK-DWTgI0GXqKE31Vyo0bLId9_DNGwZdwjQdg-NjiJKtJ5Lcj2cTkOMCUKKgkAG7C72wBpjI0XGQAzRFsXRNg1H6UyQw9Dv5xn1mbFU6J3pxZO_sud9t01IN6bZVZJyuHzATiQZKxQnohG9kiRrf0Ypsogk2nR2H4ZGF0gkNrLNGkSTsoymCf16G8oM7-vDzw_P5t-SxKXvex6E1WVlCaoHgjHsNXwWPtcGtGALqySH8kERxYkoVnQOlA6xzA==";
@@ -87,7 +87,7 @@ app.delete('/products/:id', (req, res) => {
 
 app.get('/commonauth', (req, res) => {
     console.log("Commonauth method invoked.");
-    return {};
+    res.json({});
     // method to get the access token.
 });
 
@@ -103,7 +103,7 @@ app.get('/nic', (req, res) => {
         "name": "Charith Rajitha",
         "nic": "962391010V"
     }
-    return nicdata;
+    res.json(nicdata);
 })
 
 async function exchangeToken(token) {
