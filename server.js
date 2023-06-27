@@ -86,6 +86,20 @@ app.delete('/products/:id', (req, res) => {
     res.json({ message: `Product ${id} deleted.`});
 });
 
+app.get('/commonauth', (req, res) => {
+    console.log("Commonauth method invoked.");
+    // method to get the access token.
+});
+
+app.get('/nic', (req, res) => {
+    // method to get nic number.
+    console.log("NIC method invoked.");
+    const nicdata = {
+        "name": "Charith Rajitha",
+        "nic": "962391010V"
+    }
+    return nicdata;
+})
 
 async function exchangeToken(token) {
     let data = {

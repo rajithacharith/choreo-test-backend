@@ -63,3 +63,23 @@ paths:
           description: Successful response
           content:
             application/json: {}
+  /nic:
+    get:
+      tags:
+        - default
+      summary: get
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /commonauth:
+    get:
+      tags:
+        - default
+      summary: get
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
