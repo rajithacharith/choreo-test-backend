@@ -63,9 +63,8 @@ app.use((req, res, next) => {
 
 app.get('/products', (req, res) => {
     console.log('GET /products request received from user ' + req.auth.sub);
-    console.log("Exchanged token: " + exchangeToken(req.headers['x-access-token']));
 
-    console.log(config);
+    console.log(req.headers['x-jwt-assertion']);
 
     res.json(products);
 });
