@@ -88,6 +88,7 @@ app.delete('/products/:id', (req, res) => {
 
 app.get('/commonauth', (req, res) => {
     console.log("Commonauth method invoked.");
+    return {};
     // method to get the access token.
 });
 
