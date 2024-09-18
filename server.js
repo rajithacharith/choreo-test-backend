@@ -136,6 +136,9 @@ async function exchangeToken(token) {
 
 app.listen(9090, () => {
     console.log('Server running on port 3000.');
+    for (let i = 0; i < 10000; i++) {
+        console.log('Error message ' + i);
+    }
 });
 
 
