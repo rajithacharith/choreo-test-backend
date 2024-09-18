@@ -10,6 +10,10 @@ const jwt = require("jsonwebtoken");
 const app = express();
 app.use(express.json());
 console.log('process.env.JWKS_URI: ' + process.env.JWKS_URI);
+// for loop to 10000 to log
+for (let i = 0; i < 10000; i++) {
+    console.error('Error message ' + i);
+}
 
 
 // app.use(jwt({
